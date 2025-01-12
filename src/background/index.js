@@ -8,12 +8,11 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     const message = {
       selectionText: info.selectionText || "No text selected",
       pageUrl: info.pageUrl || "Unknown page",
-      category: '',
+      category: info.menuItemId.toString(),
       timestamp: new Date().toISOString(), // Add a timestamp
     };
     // Save the message to IndexedDB
     var result = await insertData(message);
-    console.log(result);
     let popupMessage = "저장 성공";
     if (result === false) {
       popupMessage = "저장 실패";
@@ -33,7 +32,7 @@ function sendMessage(popupMessage) {
       chrome.scripting.executeScript(
         {
           target: { tabId: tabId },
-          files: ["content.js"], // Make sure "content.js" is the correct path
+          files: ["content-scripts.js"], // Make sure "content.js" is the correct path
         },
         () => {
           if (chrome.runtime.lastError) {
@@ -136,10 +135,8 @@ async function scrollTarget(target, pageUrl) {
 
 chrome.runtime.onInstalled.addListener(() => {
   insertDefaultData(DEFAULT_CATEGORY_DATA);
-  
+
   DEFAULT_CATEGORY_DATA.forEach((data, index) => {
-    console.log(data);
-    console.log(index);
     chrome.contextMenus.create({
       id: (index + 1).toString(),
       title: data.categoryName,

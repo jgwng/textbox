@@ -5,11 +5,34 @@
   --bg-color: #dfe7fd;
   --border-radius-lg: 1rem;
   --border-radius-md: 0.5rem;
-  --border-color: #e5e7eb;
   --text-gray: rgba(107, 114, 128, 1);
   --white: rgba(255, 255, 255, 1);
   --bg-gray: rgba(249, 250, 251, 1);
+
+  --pastel-red: #FFCDD2;      
+  --pastel-orange: #FFE0B2;  
+  --pastel-yellow: #FFF9C4;   
+  --pastel-green: #C8E6C9;   
+  --pastel-blue: #BBDEFB;   
+  --pastel-purple: #E1BEE7;  
+  --pastel-pink: #F8BBD0;     
+  --pastel-teal: #B2EBF2;  
+
 }
+[data-theme="dark"] {
+    --color-bg: #292A2D;
+    --color-border: #3F4042;
+  
+    /* Dark Mode Pastel Colors */
+    --pastel-red: #D32F2F;     
+    --pastel-orange: #EF6C00;   
+    --pastel-yellow: #F9A825; 
+    --pastel-green: #388E3C;   
+    --pastel-blue: #1976D2;    
+    --pastel-purple: #7B1FA2;  
+    --pastel-pink: #C2185B;    
+    --pastel-teal: #005662;    
+  }
 
 @font-face {
   font-family: 'GmarketSansMedium';
@@ -38,8 +61,7 @@
 
   .card {
     max-width: 320px;
-    border: 2px solid var(--border-color);
-    border-radius: var(--border-radius-lg);
+    border-radius: var(--border-radius-md);
     background-color: var(--white);
     padding: 1rem;
     position: relative;
