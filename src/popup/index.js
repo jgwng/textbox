@@ -1,4 +1,6 @@
 import '../styles/global.css';
+import '../popup/init.js';
+
 import App from './App.svelte';
 
 const app = new App({

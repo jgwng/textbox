@@ -1,7 +1,7 @@
 {
-  "name": "chrome-extension-svelte-bolierplate",
-  "version": "0.0.1",
-  "description": "A boilerplate for chrome extension with svelte",
+  "name": "텍스트박스",
+  "version": "1.0.1",
+  "description": "웹에서 발견한 중요한 문구를 간단히 저장하고 체계적으로 관리하세요.",
   "manifest_version": 3,
   "icons": {
     "16": "./assets/icons/icon16.png",
@@ -9,8 +9,11 @@
     "48": "./assets/icons/icon48.png",
     "128": "./assets/icons/icon128.png"
   },
-  "permissions": [],
-  "options_page": "options.html",
+  "permissions": ["contextMenus", "scripting"],
+  "options_ui": {
+        "page": "options.html",
+        "open_in_tab": true
+  },
   "action": {
     "default_popup": "popup.html",
     "default_title": "popup",
@@ -32,5 +35,11 @@
   ],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
-  }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["img/close.svg"],
+      "matches": ["<all_urls>"]
+    }
+  ]
 }

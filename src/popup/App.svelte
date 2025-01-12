@@ -1,30 +1,16 @@
 <script>
-	export let name;
+
 </script>
 
-<main>
-	<h1>{name}</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-</main>
-
-<style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
-</style>
+<body>
+	<div style="height: 600px; width: 375px;">
+		<div class="header" id="header">
+			<h1>텍스트 박스</h1>
+			<button id="deleteAllBtn">전체 삭제</button>
+		  </div>
+		  <ul id="resultList"></ul>
+		  <div class="empty-message" id="emptyMessage"></div> 
+		  <!-- Load script at the end of the body -->
+		  <script src="index.js" type="module"></script>
+	</div>
+</body>

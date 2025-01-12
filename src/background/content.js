@@ -1,5 +1,4 @@
-<script>
-  function showToast(message) {
+function showToast(message) {
   const toast = document.createElement("div");
   toast.textContent = `${message}`;
   toast.style.position = "fixed";
@@ -38,4 +37,3 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     showToast(message.message); // Run the popup function with the message
   }
 });
-</script>

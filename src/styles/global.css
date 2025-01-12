@@ -1,15 +1,201 @@
-html,
-body {
-  position: relative;
-  width: 100%;
-  height: 100%;
+:root{
+  --container_width: 375px;
+  --container_height: 600px;
+  --header_height: 56px;
+  --bg-color: #dfe7fd;
+  --border-radius-lg: 1rem;
+  --border-radius-md: 0.5rem;
+  --border-color: #e5e7eb;
+  --text-gray: rgba(107, 114, 128, 1);
+  --white: rgba(255, 255, 255, 1);
+  --bg-gray: rgba(249, 250, 251, 1);
 }
 
-body {
-  color: #333;
-  margin: 0;
-  padding: 8px;
-  box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+@font-face {
+  font-family: 'GmarketSansMedium';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
+
+ body {
+    font-family: 'GmarketSansMedium', sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+
+  h1 {
+    font-size: 20px;
+    margin: 0;
+  }
+
+  ul {
+    list-style-type: none;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .card {
+    max-width: 320px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    background-color: var(--white);
+    padding: 1rem;
+    position: relative;
+  }
+  .message {
+    color: var(--text-gray);
+    font-size: 0.9rem;
+  }
+  .actions {
+    margin-top: 1rem;
+    width: 100%;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .actions a {
+    text-decoration: none;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .clipboard, #deleteAllBtn,.link {
+    background-color: var(--bg-gray);
+    color: var(--text-gray);
+    transition: all .15s ease;
+    border: 1px solid #d1d9e0;
+    border-radius: var(--border-radius-md);
+    text-align: center;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .link {
+    background-color: rgba(59, 130, 246, 1);
+    color: rgba(255, 255, 255, 1);
+  }
+  
+  #deleteAllBtn{
+    padding-left: 8px;
+    padding-right: 8px;
+    height: 36px;
+  }
+
+  /* Optional: Add hover effect */
+  .clipboard:hover, #deleteAllBtn:hover {
+    background-color: rgba(243, 244, 246, 1);
+  }
+
+  #resultList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .delete-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: none;
+    background-color: #e5e7eb;
+    color: #4b5563;
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .delete-btn:hover::before {
+    content: "텍스트 제거";
+    position: absolute;
+    top: -24px;
+    right: 0;
+    background-color: #333;
+    color: white;
+    padding-left: 8px;
+    padding-right: 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .delete-btn:hover {
+    background-color: #dc2626;
+    color: white;
+  }
+
+  .empty-message {
+    text-align: center;
+    color: #666;
+    height: calc(var(--container_height) - var(--header_height));
+    align-items: center;
+    justify-content: center;
+    display: none;
+  }
+
+  .empty-message p {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: var(--header_height);
+    padding: 0 1rem;
+    gap: 1rem;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+
+  .toast-popup {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 24px;
+    border-radius: 8px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 10000;
+  }
+
+  .toast-popup.show {
+    opacity: 1;
+  }
+
+  /* Status-specific styles */
+  .toast-success {
+    background-color: #4ade80;  /* Green background */
+    color: white;
+  }
+
+  .toast-error {
+    background-color: #ef4444;  /* Red background */
+    color: white;
+  }
+
+  

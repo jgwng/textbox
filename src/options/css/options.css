@@ -1,0 +1,337 @@
+:root {
+    font-family: 'NotoSansMedium', sans-serif;
+    /* Default Theme Variables */
+    --color-bg: #F8F8FF;
+    --color-border: #dee2e6;
+  
+    /* Light Theme Pastel Colors */
+    --pastel-red: #FFCDD2;      
+    --pastel-orange: #FFE0B2;  
+    --pastel-yellow: #FFF9C4;   
+    --pastel-green: #C8E6C9;   
+    --pastel-blue: #BBDEFB;   
+    --pastel-purple: #E1BEE7;  
+    --pastel-pink: #F8BBD0;     
+    --pastel-teal: #B2EBF2;  
+  }
+  
+  [data-theme="dark"] {
+    --color-bg: #292A2D;
+    --color-border: #3F4042;
+  
+    /* Dark Mode Pastel Colors */
+    --pastel-red: #D32F2F;     
+    --pastel-orange: #EF6C00;   
+    --pastel-yellow: #F9A825; 
+    --pastel-green: #388E3C;   
+    --pastel-blue: #1976D2;    
+    --pastel-purple: #7B1FA2;  
+    --pastel-pink: #C2185B;    
+    --pastel-teal: #005662;    
+  }
+
+  
+@font-face {
+    font-family: 'NotoSansMedium';
+    src: url('/assets/font/NotoSans-Medium.woff') format('woff'); /* Path to your .woff file */
+    font-weight: normal; /* Specify weight if applicable */
+    font-style: normal;  /* Specify style if applicable */
+}
+
+@font-face {
+    font-family: 'NotoSansBold';
+    src: url('/assets/font/NotoSans-Bold.woff') format('woff'); /* Path to your .woff file */
+    font-weight: normal; /* Specify weight if applicable */
+    font-style: normal;  /* Specify style if applicable */
+}
+body {
+    font-family: 'NotoSansMedium', sans-serif;
+    background-color: #f8f9fa;
+    display: flex; /* Use Flexbox for centering */
+    justify-content: center; /* Horizontally center */
+    align-items: center; /* Vertically center */
+    margin: 0; /* Remove default margin */
+    height: 100vh; /* Ensure the body takes up the full viewport height */
+  }
+  
+  .container {
+    flex-direction: column; /* Arrange children vertically */
+    justify-content: flex-start; /* Align items at the top */
+    max-width: 720px;
+    min-height: 470px;
+    width: 100%; /* Ensure it adjusts to smaller screen widths */
+    background-color: #ffffff; /* White background */
+    border-radius: 12px; /* Rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation */
+    margin-top: 120px; /* Adjust this value based on your header height */
+    padding: 0 24px;
+  }
+  
+.color-container {
+  display: none;
+  grid-template-columns: repeat(2, 1fr); /* Two columns */
+  gap: 20px;
+  max-width: 800px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  flex: 1;
+}
+
+.color-card {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  justify-content: space-between;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px 0 rgba(38, 77, 255, .1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.color-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.text-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+  color: #111827;
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-left: 24px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  font-size: 20px;
+  font-weight: bold;
+  background-color: #ffffff;
+}
+
+  .add {
+    background-color: rgba(59, 130, 246, 1);
+    color: rgba(255, 255, 255, 1);
+    padding: 8px 16px;
+    border-radius: 8px;
+  }
+  
+
+.close-icon {
+    cursor: grab;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}
+
+.close-icon img {
+    width: 16px;
+    height: 16px;
+    display: block;
+    opacity: 0.8; /* Slight transparency for a softer look */
+}
+
+.close-icon:hover img {
+    opacity: 1; /* Fully visible on hover */
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: var(--color-bg);
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-family: 'NotoSansBold', sans-serif;
+  font-size: 18px;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-family: 'NotoSansMedium', sans-serif;
+  box-sizing: border-box;
+}
+
+.color-palette {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  padding-right:20px;
+}
+
+.color-option {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.color-option:hover {
+  transform: scale(1.05);
+}
+
+.color-option.selected {
+  border-color: #000;
+}
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px; /* Add space between buttons */
+}
+
+.confirm-button {
+  background-color: var(--pastel-blue);
+  color: #000;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-family: 'NotoSansBold', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.confirm-button:hover {
+  background-color: var(--pastel-green);
+}
+
+.delete-button {
+    background-color: var(--pastel-red);
+    color: #000;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-family: 'NotoSansBold', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.delete-button:hover {
+    opacity: 0.8;
+}
+
+.card-red {
+  background-color: var(--pastel-red);
+}
+.card-orange {
+  background-color: var(--pastel-orange);
+}
+.card-yellow {
+  background-color: var(--pastel-yellow);
+}
+.card-green {
+  background-color: var(--pastel-green);
+}
+.card-blue {
+    background-color: var(--pastel-blue);
+}
+.card-purple {
+    background-color: var(--pastel-purple);
+}
+.card-pink {
+    background-color: var(--pastel-pink);
+}
+.card-teal {
+    background-color: var(--pastel-teal);
+}
+
+.options-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: white;
+    padding: 20px 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.options-header h1 {
+    font-size: 32px;
+    font-weight: 600;
+    margin: 0;
+    margin-bottom: 8px;
+}
+
+.options-header .subtitle {
+    color: #6b7280;
+    font-size: 16px;
+    margin: 0;
+}
+
+
+.empty-message {
+  text-align: center;
+  color: #666;
+  flex: 1; /* Make this element take up the remaining vertical space */
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-message p {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+}
