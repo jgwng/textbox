@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "웹에서 발견한 중요한 문구를 간단히 저장하고 체계적으로 관리하세요.",
   "scripts": {
-    "build": "cross-env NODE_ENV=production npx webpack",
+    "build": "clear &&cross-env NODE_ENV=production npx webpack",
     "watch": "webpack -w",
     "start": "npm run watch && webpack serve"
   },

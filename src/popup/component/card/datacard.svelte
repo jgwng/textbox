@@ -116,7 +116,7 @@
     .card-more {
       position: absolute;
       top: 12px;
-      right: 12px;
+      right: 6px;
       cursor: pointer;
       color: #aaa;
       border: none;
@@ -181,6 +181,7 @@
       border-bottom-left-radius: 12px;
       border-left: 1px solid var(--border-color);
       border-bottom: 1px solid var(--border-color);
+      border-right: 1px solid #E5E6E9;
     }
     #button2 {
       border-bottom-right-radius: 12px;
@@ -195,9 +196,9 @@
   <div class="card-container"
     id="card-{entry.id}" 
     style="--border-color: var(--pastel-{category?.categoryColor}); background-color: var(--pastel-{category?.categoryColor})">
-    <div class="card-more" on:click={onTapMoreButton}>
+    <button class="card-more" on:click={onTapMoreButton}>
       <img src="../../../assets/images/more.svg" alt="more" />
-    </div>
+    </button>
     <div class="card-content">{entry.selectionText}</div>
     <div class="card-footer">
       <button on:click={() => moveToLink(entry.pageUrl, entry.selectionText)} id="button1">링크 열기</button>

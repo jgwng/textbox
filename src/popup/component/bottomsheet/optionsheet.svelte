@@ -15,9 +15,22 @@
             onEdit();
         }, 300);
     }
+    function handleKeydown(event) {
+        if (event.key === 'Escape') {
+            visible = false;
+            onClose();
+        }
+    }
+
 </script>
 
-<div class="bottom-sheet" on:click|stopPropagation>
+<div class="bottom-sheet" 
+    on:click|stopPropagation 
+    role="button" 
+    aria-label="옵션" 
+    on:keydown={handleKeydown}
+    tabindex="0"
+>
     <div class="options">
       <button class="option-item" on:click={handleEdit}>
         <div class="icon">✏️</div>
@@ -51,6 +64,7 @@
     width: 100%;
     text-align: left;
     cursor: pointer;
+    font-family: 'GmarketSansMedium', sans-serif;
   }
 
   .option-item:hover {

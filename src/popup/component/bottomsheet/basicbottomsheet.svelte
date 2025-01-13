@@ -11,6 +11,13 @@
             onClose();
         }
     }
+
+    function handleKeydown(event) {
+        if (event.key === 'Escape') {
+            visible = false;
+            onClose();
+        }
+    }
 </script>
 
 <style>
@@ -73,7 +80,15 @@
     }
 </style>
 
-<div class="overlay" class:active={visible} on:click={handleBackgroundClick}></div>
+<div 
+    class="overlay" 
+    class:active={visible} 
+    on:click={handleBackgroundClick}
+    on:keydown={handleKeydown}
+    tabindex="0"
+    role="button"
+    aria-label="닫기"
+></div>
 
 <!-- Use Svelte's transition directive -->
 <div class="popup-container" transition:slide={{ duration: 300 }} class:open={visible} id="bottom-sheet-container">

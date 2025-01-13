@@ -18,6 +18,7 @@
 
 <style>
     .category-item {
+        width: 100%;
         height: 40px;
         display: flex;
         align-items: center;
@@ -25,6 +26,11 @@
         padding: 0 16px;
         border-radius: 10px;
         margin-bottom: 10px;
+        border: none;
+        cursor: pointer;
+        background: none;
+        text-align: left;
+        
     }
 
     ul {
@@ -64,16 +70,16 @@
 <div>
     <ul>
         {#each categories as category}
-            <li 
+            <button 
                 class="category-item" 
                 style="background-color: var(--pastel-{category?.categoryColor})"
                 on:click={() => selectedCategory = category}
             >
                 <span>{category.categoryName}</span>
                 {#if selectedCategory.categorySeq === category.categorySeq}
-                    <img src="../../../assets/images/check.svg" class="check-icon"/>
+                    <img src="../../../assets/images/check.svg" class="check-icon" alt="선택됨"/>
                 {/if}
-            </li>
+            </button>
         {/each}
     </ul>
     <div class="category-sheet-footer">
