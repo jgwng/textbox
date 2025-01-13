@@ -49,6 +49,46 @@ export const insertData = async (data) => {
     return false;
   }
 };
+export const updateData = async (id, updatedData) => {
+  const db = await openDB();
+  const transaction = db.transaction([OBJECT_STORE_NAME], "readwrite");
+  const objectStore = transaction.objectStore(OBJECT_STORE_NAME);
+
+  return new Promise((resolve, reject) => {
+    // Get the existing data for the provided id
+    const getRequest = objectStore.get(id);
+
+    getRequest.onsuccess = (event) => {
+      const existingData = event.target.result;
+
+      if (!existingData) {
+        reject(`No data found with id: ${id}`);
+        return;
+      }
+
+      // Merge the existing data with the updated data
+      const mergedData = { ...existingData, ...updatedData };
+
+      // Put the merged data back into the object store
+      const updateRequest = objectStore.put(mergedData);
+
+      updateRequest.onsuccess = () => {
+        console.log(`Data with id: ${id} successfully updated.`);
+        resolve(true);
+      };
+
+      updateRequest.onerror = (event) => {
+        console.error(`Error updating data: ${event.target.error}`);
+        reject(`Error updating data: ${event.target.error}`);
+      };
+    };
+
+    getRequest.onerror = (event) => {
+      console.error(`Error fetching data for update: ${event.target.error}`);
+      reject(`Error fetching data for update: ${event.target.error}`);
+    };
+  });
+};
 
 export const deleteAllData = async () => {
   const db = await openDB();

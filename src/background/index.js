@@ -5,6 +5,7 @@ import { DEFAULT_CATEGORY_DATA } from '/options/js/constants.js';
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   if (info.menuItemId !== "") {
     // Create the message object
+    console.log("info.menuItemId", info.menuItemId);
     const message = {
       selectionText: info.selectionText || "No text selected",
       pageUrl: info.pageUrl || "Unknown page",
@@ -61,7 +62,7 @@ const getActiveTab = async () => {
   return tab;
 };
 
-const scrollToSpecificText = (targetText) => {
+const scrollToSpecificText = (targetText, color) => {
   const body = document.body;
   const walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT, null, false);
 
@@ -75,10 +76,10 @@ const scrollToSpecificText = (targetText) => {
       range.setEnd(node, index + targetText.length);
       const rect = range.getBoundingClientRect();
 
-      window.scrollTo({ top: rect.top + window.scrollY - 50, behavior: "smooth" });
+      window.scrollTo({ top: rect.top + window.scrollY - 100, behavior: "smooth" });
 
       const span = document.createElement("span");
-      span.style.backgroundColor = "yellow";
+      span.style.backgroundColor = color;
       span.textContent = targetText;
 
       range.deleteContents();
@@ -100,7 +101,7 @@ function createSubMenu() {
   });
 }
 
-async function scrollTarget(target, pageUrl) {
+async function scrollTarget(target, pageUrl, color) {
   const activeTab = await getActiveTab();
 
   chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
@@ -121,7 +122,7 @@ async function scrollTarget(target, pageUrl) {
             chrome.scripting.executeScript({
               target: { tabId: tabId },
               func: scrollToSpecificText,
-              args: [target], // Pass the target text as an argument
+              args: [target, color], // Pass the target text as an argument
             });
           }
         });
@@ -160,7 +161,8 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     case "scrollText":
       const target = message.target || '';
       const url = message.url || '';
-      scrollTarget(target, url);
+      const color = message.color || 'yellow';
+      scrollTarget(target, url, color);
       return true;
     case "createPopup":
       const content = message.popupMessage || '';

@@ -10,6 +10,10 @@
     "128": "./assets/icons/icon128.png"
   },
   "permissions": ["contextMenus", "scripting"],
+  "host_permissions": [
+        "https://*/*",
+        "http://*/*"
+    ],
   "options_ui": {
         "page": "options.html",
         "open_in_tab": true
