@@ -82,7 +82,7 @@
 		  </ul>
 		  <div class="empty-message" id="emptyMessage">
 			<p>저장된 글이 없습니다</p>
-		  </div> 
+		  </div>
 		  <div id="bottom-sheet"></div>
 		  <!-- Load script at the end of the body -->
 		  <script src="index.js" type="module"></script>
