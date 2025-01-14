@@ -9,14 +9,14 @@
     "48": "./assets/icons/icon48.png",
     "128": "./assets/icons/icon128.png"
   },
-  "permissions": ["contextMenus", "scripting"],
+  "permissions": ["contextMenus", "scripting", "tabs"],
   "host_permissions": [
-        "https://*/*",
-        "http://*/*"
-    ],
+    "https://*/*",
+    "http://*/*"
+  ],
   "options_ui": {
-        "page": "options.html",
-        "open_in_tab": true
+    "page": "options.html",
+    "open_in_tab": true
   },
   "action": {
     "default_popup": "popup.html",
@@ -45,5 +45,14 @@
       "resources": ["img/close.svg"],
       "matches": ["<all_urls>"]
     }
-  ]
+  ],
+  "commands": {
+    "Undo": {
+      "description": "Undo",
+      "suggested_key": {
+        "default": "Ctrl+Shift+Z",
+        "mac": "Command+Shift+Z"
+      }
+    }
+  }
 }

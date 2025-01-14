@@ -110,9 +110,9 @@
     .card-container {
       background: white;
       border-radius: 12px;
-      border: 0.5px solid #eee;
-      box-shadow: 0 20px 100px rgba(0, 0, 0, 0.2);
+      box-shadow: var(--card-shadow);
       position: relative;
+      font-family: 'GmarketSansMedium', sans-serif;
     }
   
     .card-more {
@@ -145,18 +145,20 @@
       font-size: 0.9rem;
       padding: 2rem 1.5rem 1rem;
       line-height: 1.6;
-      border: 1px solid var(--border-color);
-      border-bottom: none;
-      border-top-left-radius: 12px;
-      border-top-right-radius: 12px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
     }
-  
+
+    .text-content {
+      margin-bottom: 1rem;
+    }
+
     .card-footer {
       display: flex;
-      padding: 0 2rem;
       justify-content: space-between;
-     
-      margin: 0 -2rem -2rem -2rem;
+      margin-top: auto;
+      margin: 0rem -1.5rem -1rem;
     }
   
     .card-footer button {
@@ -164,8 +166,7 @@
       height: 48px;
       padding: 0.8rem;
       border: none;
-      background: #f7f7f7;
-      color: #555;
+      background: #FFFFFF;
       cursor: pointer;
       transition: background-color 0.2s ease;
       font-size: 0.875rem;
@@ -175,20 +176,14 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-family: 'GmarketSansMedium', sans-serif;
-      border-bottom: 1px solid red;
     }
   
     #button1 {
       border-bottom-left-radius: 12px;
-      border-left: 1px solid var(--border-color);
-      border-bottom: 1px solid var(--border-color);
       border-right: 1px solid #E5E6E9;
     }
     #button2 {
       border-bottom-right-radius: 12px;
-      border-bottom: 1px solid var(--border-color);
-      border-right: 1px solid var(--border-color);
     }
     .card-footer button:hover {
       background: #eee;
@@ -197,14 +192,16 @@
   
   <div class="card-container"
     id="card-{entry.id}" 
-    style="--border-color: var(--pastel-{category?.categoryColor}); background-color: var(--pastel-{category?.categoryColor})">
+    style="background-color: var(--pastel-{category?.categoryColor ?? 'red'})">
     <button class="card-more" on:click={onTapMoreButton}>
       <img src="../../../assets/images/more.svg" alt="more" />
     </button>
-    <div class="card-content">{entry.selectionText}</div>
-    <div class="card-footer">
-      <button on:click={() => moveToLink(entry.pageUrl, entry.selectionText)} id="button1">링크 열기</button>
-      <button on:click={() => copyText(entry.selectionText)} id="button2">복사하기</button>
+    <div class="card-content">
+      <div class="text-content">{entry.selectionText}</div>
+      <div class="card-footer">
+        <button on:click={() => moveToLink(entry.pageUrl, entry.selectionText)} id="button1">링크 열기</button>
+        <button on:click={() => copyText(entry.selectionText)} id="button2">복사하기</button>
+      </div>
     </div>
   </div>
   

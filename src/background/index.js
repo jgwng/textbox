@@ -123,29 +123,29 @@ async function scrollTarget(target, pageUrl, color) {
 }
 // Create the context menu on extension installation
 
-chrome.tabs.onUpdated.addListener(
-  async (tabId, changeInfo, tab) => {
-    console.log('Updated to URL:', tab.url);
-    console.log('Updated to tabId:', tabId);
-    console.log('Updated to changeInfo:', changeInfo);
+// chrome.tabs.onUpdated.addListener(
+//   async (tabId, changeInfo, tab) => {
+//     console.log('Updated to URL:', tab.url);
+//     console.log('Updated to tabId:', tabId);
+//     console.log('Updated to changeInfo:', changeInfo);
 
-    // Execute script to check dark mode
-    if (changeInfo.status === 'complete') {
-      try {
-        const [{result}] = await chrome.scripting.executeScript({
-          target: { tabId: tabId },
-          func: () => {
-            return window.matchMedia('(prefers-color-scheme: dark)').matches;
-          }
-        });
-        console.log('Is Dark Mode:', result);
-        // You can store this result or use it as needed
-      } catch (err) {
-        console.error('Failed to detect dark mode:', err);
-      }
-    }
-  }
-);
+//     // Execute script to check dark mode
+//     if (changeInfo.status === 'complete') {
+//       try {
+//         const [{result}] = await chrome.scripting.executeScript({
+//           target: { tabId: tabId },
+//           func: () => {
+//             return window.matchMedia('(prefers-color-scheme: dark)').matches;
+//           }
+//         });
+//         console.log('Is Dark Mode:', result);
+//         // You can store this result or use it as needed
+//       } catch (err) {
+//         console.error('Failed to detect dark mode:', err);
+//       }
+//     }
+//   }
+// );
 
 chrome.runtime.onInstalled.addListener(() => {
   insertDefaultData(DEFAULT_CATEGORY_DATA);
@@ -186,4 +186,8 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
       createSubMenu();
       return true;
   }
+});
+
+chrome.commands.onCommand.addListener(command => {
+	  console.log(command);
 });

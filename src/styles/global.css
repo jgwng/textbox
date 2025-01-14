@@ -17,6 +17,7 @@
   --pastel-purple: #E1BEE7;  
   --pastel-pink: #F8BBD0;     
   --pastel-teal: #B2EBF2;  
+  --card-shadow: color-mix(in srgb, rgb(0, 0, 0) 30%, transparent) 0 1px 2px 0, color-mix(in srgb, rgb(0, 0, 0) 15%, transparent) 0 2px 6px 2px;
 
 }
 [data-theme="dark"] {
