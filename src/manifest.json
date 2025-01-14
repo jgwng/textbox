@@ -46,12 +46,34 @@
       "matches": ["<all_urls>"]
     }
   ],
+
   "commands": {
-    "Undo": {
-      "description": "Undo",
+    "SAVE_1": {
+      "description": "카테고리 #1에 저장",
       "suggested_key": {
-        "default": "Ctrl+Shift+Z",
-        "mac": "Command+Shift+Z"
+        "default": "Ctrl+Shift+1",
+        "mac": "Command+Shift+1"
+      }
+    },
+    "SAVE_2": {
+      "description": "카테고리 #2에 저장",
+      "suggested_key": {
+        "default": "Ctrl+Shift+2",
+        "mac": "Command+Shift+2"
+      }
+    },
+    "SAVE_3": {
+      "description": "카테고리 #3에 저장",
+      "suggested_key": {
+        "default": "Ctrl+Shift+3",
+        "mac": "Command+Shift+3"
+      }
+    },
+    "SAVE_4": {
+      "description": "카테고리 #4에 저장",
+      "suggested_key": {
+        "default": "Ctrl+Shift+4",
+        "mac": "Command+Shift+4"
       }
     }
   }

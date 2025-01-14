@@ -4,4 +4,4 @@ export const OBJECT_STORE_NAME = "BookmarkData";
 export const INDEX_SELECTION = "selectionText";
 export const INDEX_URL = "pageUrl";
 export const INDEX_CATEGORY = "category";
-
+export const INDEX_MACRO_NO = "macroNo";

@@ -1,4 +1,4 @@
-import { DATABASE_NAME, DATABASE_VERSION, OBJECT_STORE_NAME, INDEX_SELECTION, INDEX_URL, INDEX_CATEGORY } from './constants.js';
+import { DATABASE_NAME, DATABASE_VERSION, OBJECT_STORE_NAME, INDEX_SELECTION, INDEX_URL, INDEX_CATEGORY, INDEX_MACRO_NO } from './constants.js';
 
 export const openDB = async () => {
   return new Promise((resolve, reject) => {
@@ -20,6 +20,7 @@ export const openDB = async () => {
         objectStore.createIndex(INDEX_SELECTION, INDEX_SELECTION, { unique: false });
         objectStore.createIndex(INDEX_URL, INDEX_URL, { unique: false });
         objectStore.createIndex(INDEX_CATEGORY, INDEX_CATEGORY, { unique: false });
+        objectStore.createIndex(INDEX_MACRO_NO, INDEX_MACRO_NO, { unique: false });
       }
     };
   });
@@ -52,7 +53,7 @@ export const insertData = async (data) => {
 export const updateData = async (id, updatedData) => {
   const db = await openDB();
   const transaction = db.transaction([OBJECT_STORE_NAME], "readwrite");
-  const objectStore = transaction.objectStore(OBJECT_STORE_NAME);
+  const objectStore = transaction.objectStore(CATEGORY_OBJECT_STORE_NAME);
 
   return new Promise((resolve, reject) => {
     // Get the existing data for the provided id

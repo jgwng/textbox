@@ -185,6 +185,9 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
       const text = message.menuName || '';
       createSubMenu();
       return true;
+    case "openSidePanel":
+      chrome.sidePanel.open({tabId: sender.tab.id});
+      return true;
   }
 });
 
