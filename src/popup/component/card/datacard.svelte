@@ -1,16 +1,18 @@
 <script>
     import {deleteData, updateData} from '../../../background/database.js';
     import OptionSheet from '../bottomsheet/optionsheet.svelte';  
-    import {openBottomSheet,hideBottomSheet} from '../../service/common.js';
+    import {openBottomSheet,hideBottomSheet,getCSSVariableValue} from '../../service/common.js';
     import CategoryChangeSheet from '../bottomsheet/categoryChangeSheet.svelte';
     export let entry;
     export let category;
     export let onRefresh;
 
     async function moveToLink(url, text) {
-        console.log("scrollText -- web/index.js");
+        const categoryColor = category?.categoryColor ?? 'red';
+        const color = getCSSVariableValue(`--pastel-${categoryColor}`);
+
         const promise = new Promise(function (resolve, reject) {
-            chrome.runtime.sendMessage({ type: "scrollText", target: text, url: url,color: category?.categoryColor }, function (response) {
+            chrome.runtime.sendMessage({ type: "scrollText", target: text, url: url,color: color }, function (response) {
             resolve(response);
             });
         })

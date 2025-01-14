@@ -4,6 +4,10 @@ import BasicBottomSheet from '../component/bottomsheet/basicbottomsheet.svelte';
 
 let bottomSheetInstance = null;
 
+export function getCSSVariableValue(variableName) {
+    return getComputedStyle(document.documentElement).getPropertyValue(variableName).trim();
+}
+
 export function create(Component, target, props = {}) {
     // Ensure the target exists
     if (!target) {
