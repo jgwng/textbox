@@ -1,7 +1,7 @@
 <script>
     import {deleteData, updateData} from '../../../background/database.js';
     import OptionSheet from '../bottomsheet/optionsheet.svelte';  
-    import {openBottomSheet,hideBottomSheet,getCSSVariableValue} from '../../service/common.js';
+    import {openBottomSheet,hideBottomSheet,getCSSVariableValue} from '../../../service/common.js';
     import CategoryChangeSheet from '../bottomsheet/categoryChangeSheet.svelte';
     export let entry;
     export let category;

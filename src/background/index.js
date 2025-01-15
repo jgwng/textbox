@@ -3,7 +3,10 @@ import { insertDefaultData } from '/options/js/database.js';
 import { DEFAULT_CATEGORY_DATA } from '/options/js/constants.js';
 // Listener for context menu clicks
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
-  if (info.menuItemId !== "") {
+  
+  if (info.menuItemId === "openOptions") {
+    chrome.runtime.openOptionsPage();
+  } else if (info.menuItemId !== "") {
     // Create the message object
     console.log("info.menuItemId", info.menuItemId);
     const message = {
@@ -19,8 +22,6 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       popupMessage = "저장 실패";
     }
     sendMessage(popupMessage);
-  } else if (info.menuItemId === "openOptions") {
-    chrome.runtime.openOptionsPage();
   }
 });
 

@@ -1,7 +1,8 @@
 <script>
     import { onMount } from 'svelte';
     import {getAllCategoryData} from '../../../options/js/database.js';
-    import {hideBottomSheet} from '../../service/common.js';
+    
+    import {hideBottomSheet} from '../../../service/common.js';
 
     let categories = [];
     let selectedCategory = null;

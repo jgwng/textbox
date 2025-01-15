@@ -1,5 +1,5 @@
 <script>
-    import {hideBottomSheet} from '../../service/common.js';
+    import {hideBottomSheet} from '../../../service/common.js';
     export let onDelete = () => {};
     export let onEdit = () => {};
     function handleDelete() {
