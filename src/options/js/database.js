@@ -1,4 +1,4 @@
-import { CATEGORY_DATABASE_NAME, CATEGORY_DATABASE_VERSION, CATEGORY_OBJECT_STORE_NAME, CATEGORY_NAME, CATEGORY_COLOR } from './constants.js';
+import { CATEGORY_DATABASE_NAME, CATEGORY_DATABASE_VERSION, CATEGORY_OBJECT_STORE_NAME, CATEGORY_NAME, CATEGORY_COLOR, CATEGORY_SHORTCUT } from './constants.js';
 export const openDB = async () => {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(CATEGORY_DATABASE_NAME, CATEGORY_DATABASE_VERSION);
@@ -14,14 +14,28 @@ export const openDB = async () => {
 
     request.onupgradeneeded = (event) => {
       const db = event.target.result;
+      // Check if the object store already exists
       if (!db.objectStoreNames.contains(CATEGORY_OBJECT_STORE_NAME)) {
         const objectStore = db.createObjectStore(CATEGORY_OBJECT_STORE_NAME, { keyPath: "categorySeq", autoIncrement: true });
         objectStore.createIndex(CATEGORY_NAME, CATEGORY_NAME, { unique: false });
         objectStore.createIndex(CATEGORY_COLOR, CATEGORY_COLOR, { unique: false });
       }
+
+      // Ensure that the transaction is properly referenced
+      const transaction = event.target.transaction;
+
+      // Ensure objectStore is retrieved within the transaction scope
+      const objectStore = transaction.objectStore(CATEGORY_OBJECT_STORE_NAME);
+
+      // Check if the index for "categoryMacroNo" already exists, and create it if not
+      if (!objectStore.indexNames.contains(CATEGORY_SHORTCUT)) {
+        objectStore.createIndex(CATEGORY_SHORTCUT, CATEGORY_SHORTCUT, { unique: false });
+      }
     };
   });
 };
+
+
 
 export const insertData = async (data) => {
   try {
@@ -34,7 +48,7 @@ export const insertData = async (data) => {
 
       request.onsuccess = (event) => {
         const insertedId = event.target.result; // Get the generated key
-        resolve({categorySeq: insertedId });  // Return the inserted data with its ID
+        resolve({ categorySeq: insertedId });  // Return the inserted data with its ID
       };
 
       request.onerror = (event) => {
@@ -66,46 +80,46 @@ export const deleteAllData = async () => {
   };
 };
 export const updateData = async (id, updatedData) => {
-    const db = await openDB();
-    const transaction = db.transaction([CATEGORY_OBJECT_STORE_NAME], "readwrite");
-    const objectStore = transaction.objectStore(CATEGORY_OBJECT_STORE_NAME);
-  
-    return new Promise((resolve, reject) => {
-      // Get the existing data for the provided id
-      const getRequest = objectStore.get(id);
-  
-      getRequest.onsuccess = (event) => {
-        const existingData = event.target.result;
-  
-        if (!existingData) {
-          reject(`No data found with id: ${id}`);
-          return;
-        }
-  
-        // Merge the existing data with the updated data
-        const mergedData = { ...existingData, ...updatedData };
-  
-        // Put the merged data back into the object store
-        const updateRequest = objectStore.put(mergedData);
-  
-        updateRequest.onsuccess = () => {
-          console.log(`Data with id: ${id} successfully updated.`);
-          resolve(true);
-        };
-  
-        updateRequest.onerror = (event) => {
-          console.error(`Error updating data: ${event.target.error}`);
-          reject(`Error updating data: ${event.target.error}`);
-        };
+  const db = await openDB();
+  const transaction = db.transaction([CATEGORY_OBJECT_STORE_NAME], "readwrite");
+  const objectStore = transaction.objectStore(CATEGORY_OBJECT_STORE_NAME);
+
+  return new Promise((resolve, reject) => {
+    // Get the existing data for the provided id
+    const getRequest = objectStore.get(id);
+
+    getRequest.onsuccess = (event) => {
+      const existingData = event.target.result;
+
+      if (!existingData) {
+        reject(`No data found with id: ${id}`);
+        return;
+      }
+
+      // Merge the existing data with the updated data
+      const mergedData = { ...existingData, ...updatedData };
+
+      // Put the merged data back into the object store
+      const updateRequest = objectStore.put(mergedData);
+
+      updateRequest.onsuccess = () => {
+        console.log(`Data with id: ${id} successfully updated.`);
+        resolve(true);
       };
-  
-      getRequest.onerror = (event) => {
-        console.error(`Error fetching data for update: ${event.target.error}`);
-        reject(`Error fetching data for update: ${event.target.error}`);
+
+      updateRequest.onerror = (event) => {
+        console.error(`Error updating data: ${event.target.error}`);
+        reject(`Error updating data: ${event.target.error}`);
       };
-    });
-  };
-  
+    };
+
+    getRequest.onerror = (event) => {
+      console.error(`Error fetching data for update: ${event.target.error}`);
+      reject(`Error fetching data for update: ${event.target.error}`);
+    };
+  });
+};
+
 export const getAllCategoryData = async () => {
   const db = await openDB();
   const transaction = db.transaction([CATEGORY_OBJECT_STORE_NAME], "readonly");
@@ -128,14 +142,14 @@ export const deleteData = async (id) => {
   const db = await openDB();
   const transaction = db.transaction([CATEGORY_OBJECT_STORE_NAME], "readwrite");
   const objectStore = transaction.objectStore(CATEGORY_OBJECT_STORE_NAME);
-  
+
   return new Promise((resolve, reject) => {
     const request = objectStore.delete(id);
-    
+
     request.onsuccess = () => {
       resolve();
     };
-    
+
     request.onerror = (event) => {
       reject(`Error deleting entry: ${event.target.error}`);
     };
@@ -167,4 +181,26 @@ export const insertDefaultData = async (defaultData) => {
     console.error("Error inserting default data:", error);
     throw error;
   }
+};
+
+export const getMacroData = async (macroNo) => {
+  const db = await openDB();
+  const transaction = db.transaction([CATEGORY_OBJECT_STORE_NAME], "readonly");
+  const objectStore = transaction.objectStore(CATEGORY_OBJECT_STORE_NAME);
+
+  return new Promise((resolve, reject) => {
+    const request = objectStore.getAll();
+
+    request.onsuccess = (event) => {
+      const allData = event.target.result;
+      const macroCategory = allData.filter(item =>
+        item.categoryShortcut === macroNo
+      );
+      resolve(macroCategory.categorySeq);
+    };
+
+    request.onerror = (event) => {
+      reject(`Error listing data: ${event.target.error}`);
+    };
+  });
 };

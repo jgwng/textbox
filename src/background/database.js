@@ -129,35 +129,42 @@ export const deleteData = async (id) => {
   const db = await openDB();
   const transaction = db.transaction([OBJECT_STORE_NAME], "readwrite");
   const objectStore = transaction.objectStore(OBJECT_STORE_NAME);
-  
+
   return new Promise((resolve, reject) => {
     const request = objectStore.delete(id);
-    
+
     request.onsuccess = () => {
       resolve();
     };
-    
+
     request.onerror = (event) => {
       reject(`Error deleting entry: ${event.target.error}`);
     };
   });
 };
 
-export const getDataByCategory = async (category) => {
+export const getDataByCategories = async (categories) => {
+  console.error(categories);
   const db = await openDB();
   const transaction = db.transaction([OBJECT_STORE_NAME], "readonly");
   const objectStore = transaction.objectStore(OBJECT_STORE_NAME);
-  const categoryIndex = objectStore.index("category");
 
   return new Promise((resolve, reject) => {
-    const request = categoryIndex.getAll(category);
+    const request = objectStore.getAll();
 
     request.onsuccess = (event) => {
-      resolve(event.target.result);
+      const allData = event.target.result;
+      console.error('allData', allData);
+      console.error('categories', categories);
+      // Assuming categories is an array of objects with a categoryName property
+      const filteredData = allData.filter(item =>
+        categories.some(category => `${category.categorySeq}` === `${item.category}`)
+      );
+      resolve(filteredData);
     };
 
     request.onerror = (event) => {
-      reject(`Error getting data by category: ${event.target.error}`);
+      reject(`Error getting data by categories: ${event.target.error}`);
     };
   });
-}; 
+};

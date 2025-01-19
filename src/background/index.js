@@ -1,9 +1,9 @@
 import { insertData } from './database.js';
-import { insertDefaultData } from '/options/js/database.js';
+import { insertDefaultData, getMacroData } from '/options/js/database.js';
 import { DEFAULT_CATEGORY_DATA } from '/options/js/constants.js';
 // Listener for context menu clicks
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
-  
+
   if (info.menuItemId === "openOptions") {
     chrome.runtime.openOptionsPage();
   } else if (info.menuItemId !== "") {
@@ -16,15 +16,17 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       timestamp: new Date().toISOString(), // Add a timestamp
     };
     // Save the message to IndexedDB
-    var result = await insertData(message);
-    let popupMessage = "저장 성공";
-    if (result === false) {
-      popupMessage = "저장 실패";
-    }
-    sendMessage(popupMessage);
+    saveData(message);
   }
 });
-
+const saveData = async (message) => {
+  var result = await insertData(message);
+  let popupMessage = "저장 성공";
+  if (result === false) {
+    popupMessage = "저장 실패";
+  }
+  sendMessage(popupMessage);
+}
 function sendMessage(popupMessage) {
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     if (tabs.length > 0) {
@@ -187,11 +189,54 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
       createSubMenu();
       return true;
     case "openSidePanel":
-      chrome.sidePanel.open({tabId: sender.tab.id});
+      chrome.sidePanel.open({ tabId: sender.tab.id });
       return true;
   }
 });
 
-chrome.commands.onCommand.addListener(command => {
-	  console.log(command);
+chrome.commands.onCommand.addListener((command) => {
+  chrome.tabs.query({ active: true, currentWindow: true }, async function (tabs) {
+    if (tabs.length === 0) {
+      return;
+    }
+    const tabId = tabs[0].id;
+    const selection = await chrome.scripting.executeScript({
+      target: { tabId: tabId },
+      function: () => getSelection().toString()
+    });
+    console.log(selection);
+    const selectedText = selection[0].result;
+    if (!selectedText.trim()) {
+      console.log("No text selected, skipping command execution.");
+      return; // Exit if no text is selected
+    }
+    const url = tabs[0].url;
+    switch (command) {
+      case "SAVE_1":
+        saveDataMacroNo(1, selectedText, url);
+        break;
+      case "SAVE_2":
+        saveDataMacroNo(2, selectedText, url);
+        break;
+      case "SAVE_3":
+        saveDataMacroNo(3, selectedText, url);
+        break;
+      case "SAVE_4":
+        saveDataMacroNo(4, selectedText, url);
+        break;
+    }
+  });
 });
+
+async function saveDataMacroNo(macroNo, selectionText, pageUrl) {
+  var categorySeq = await getMacroData(macroNo);  // Ensure getMacroData is correctly implemented
+  const message = {
+    selectionText: selectionText || "No text selected",
+    pageUrl: pageUrl || "Unknown page",
+    category: `${categorySeq}`,
+    timestamp: new Date().toISOString(), // Add a timestamp
+  };
+  saveData(message);
+  console.log(message); // Log or save the message as needed
+  // Implement the actual save logic here
+}

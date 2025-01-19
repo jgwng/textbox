@@ -1,17 +1,21 @@
 <script>
-	import { createModalHTML, createCardHTML } from './js/template.js';
 	import { insertData, updateData, deleteData, getAllCategoryData } from './js/database.js';
 	import { CATEGORY_NAME, CATEGORY_COLOR } from './js/constants.js';
 	import { createContextMenu, removeContextMenu, removeAllContextMenu, updateContextMenu } from './js/contextMenus.js';
 	import { onMount } from 'svelte';
 	import CategoryItem from './component/card/categoryCard.svelte';
-	import { showModal } from '../service/common.js';
+	import { showModal, hideModal } from '../service/common.js';
 	let serviceContainer;
 	let emptyMessage;
 	let container;
 	let modal;
 	let categoryList = [];
 	onMount(async () => {
+		window.addEventListener("keydown", (e) => {
+			if (e.key === 'Escape') {
+					hideModal();
+			}
+		});
 		serviceContainer = document.getElementById("colorList");
 		emptyMessage = document.getElementById("emptyMessage");
 		container = document.querySelector('.container');
