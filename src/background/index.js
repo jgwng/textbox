@@ -1,6 +1,6 @@
 import { insertData } from './database.js';
 import { insertDefaultData, getMacroData } from '/options/js/database.js';
-import { DEFAULT_CATEGORY_DATA } from '/options/js/constants.js';
+import { DEFAULT_CATEGORY_DATA} from '../database/constants.js';
 // Listener for context menu clicks
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 

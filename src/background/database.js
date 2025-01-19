@@ -1,8 +1,8 @@
-import { DATABASE_NAME, DATABASE_VERSION, OBJECT_STORE_NAME, INDEX_SELECTION, INDEX_URL, INDEX_CATEGORY, INDEX_MACRO_NO } from './constants.js';
+import {BOOKMARK_DATABASE_NAME, BOOKMARK_DATABASE_VERSION, BOOKMARK_OBJECT_STORE_NAME, BOOKMARK_INDEX_SELECTION, BOOKMARK_INDEX_URL, BOOKMARK_INDEX_CATEGORY, BOOKMARK_INDEX_MACRO_NO} from '../database/constants.js';
 
 export const openDB = async () => {
   return new Promise((resolve, reject) => {
-    const request = indexedDB.open(DATABASE_NAME, DATABASE_VERSION);
+    const request = indexedDB.open(BOOKMARK_DATABASE_NAME, BOOKMARK_DATABASE_VERSION);
 
     request.onerror = (event) => {
       reject(`Error opening database: ${event.target.errorCode}`);
@@ -15,12 +15,12 @@ export const openDB = async () => {
 
     request.onupgradeneeded = (event) => {
       const db = event.target.result;
-      if (!db.objectStoreNames.contains(OBJECT_STORE_NAME)) {
-        const objectStore = db.createObjectStore(OBJECT_STORE_NAME, { keyPath: "id", autoIncrement: true });
-        objectStore.createIndex(INDEX_SELECTION, INDEX_SELECTION, { unique: false });
-        objectStore.createIndex(INDEX_URL, INDEX_URL, { unique: false });
-        objectStore.createIndex(INDEX_CATEGORY, INDEX_CATEGORY, { unique: false });
-        objectStore.createIndex(INDEX_MACRO_NO, INDEX_MACRO_NO, { unique: false });
+      if (!db.objectStoreNames.contains(BOOKMARK_OBJECT_STORE_NAME)) {
+        const objectStore = db.createObjectStore(BOOKMARK_OBJECT_STORE_NAME, { keyPath: "id", autoIncrement: true });
+        objectStore.createIndex(BOOKMARK_INDEX_SELECTION, BOOKMARK_INDEX_SELECTION, { unique: false });
+        objectStore.createIndex(BOOKMARK_INDEX_URL, BOOKMARK_INDEX_URL, { unique: false });
+        objectStore.createIndex(BOOKMARK_INDEX_CATEGORY, BOOKMARK_INDEX_CATEGORY, { unique: false });
+        objectStore.createIndex(BOOKMARK_INDEX_MACRO_NO, BOOKMARK_INDEX_MACRO_NO, { unique: false });
       }
     };
   });
@@ -29,8 +29,8 @@ export const openDB = async () => {
 export const insertData = async (data) => {
   try {
     const db = await openDB();
-    const transaction = db.transaction([OBJECT_STORE_NAME], "readwrite");
-    const objectStore = transaction.objectStore(OBJECT_STORE_NAME);
+    const transaction = db.transaction([BOOKMARK_OBJECT_STORE_NAME], "readwrite");
+    const objectStore = transaction.objectStore(BOOKMARK_OBJECT_STORE_NAME);
 
     return new Promise((resolve, reject) => {
       const request = objectStore.add(data);
@@ -52,8 +52,8 @@ export const insertData = async (data) => {
 };
 export const updateData = async (id, updatedData) => {
   const db = await openDB();
-  const transaction = db.transaction([OBJECT_STORE_NAME], "readwrite");
-  const objectStore = transaction.objectStore(CATEGORY_OBJECT_STORE_NAME);
+  const transaction = db.transaction([BOOKMARK_OBJECT_STORE_NAME], "readwrite");
+  const objectStore = transaction.objectStore(BOOKMARK_OBJECT_STORE_NAME);
 
   return new Promise((resolve, reject) => {
     // Get the existing data for the provided id
@@ -93,8 +93,8 @@ export const updateData = async (id, updatedData) => {
 
 export const deleteAllData = async () => {
   const db = await openDB();
-  const transaction = db.transaction([OBJECT_STORE_NAME], "readwrite");
-  const objectStore = transaction.objectStore(OBJECT_STORE_NAME);
+  const transaction = db.transaction([BOOKMARK_OBJECT_STORE_NAME], "readwrite");
+  const objectStore = transaction.objectStore(BOOKMARK_OBJECT_STORE_NAME);
 
   const request = objectStore.clear();
 
@@ -109,8 +109,8 @@ export const deleteAllData = async () => {
 
 export const getAllData = async () => {
   const db = await openDB();
-  const transaction = db.transaction([OBJECT_STORE_NAME], "readonly");
-  const objectStore = transaction.objectStore(OBJECT_STORE_NAME);
+  const transaction = db.transaction([BOOKMARK_OBJECT_STORE_NAME], "readonly");
+  const objectStore = transaction.objectStore(BOOKMARK_OBJECT_STORE_NAME);
 
   return new Promise((resolve, reject) => {
     const request = objectStore.getAll();
@@ -127,8 +127,8 @@ export const getAllData = async () => {
 
 export const deleteData = async (id) => {
   const db = await openDB();
-  const transaction = db.transaction([OBJECT_STORE_NAME], "readwrite");
-  const objectStore = transaction.objectStore(OBJECT_STORE_NAME);
+  const transaction = db.transaction([BOOKMARK_OBJECT_STORE_NAME], "readwrite");
+  const objectStore = transaction.objectStore(BOOKMARK_OBJECT_STORE_NAME);
 
   return new Promise((resolve, reject) => {
     const request = objectStore.delete(id);
@@ -146,8 +146,8 @@ export const deleteData = async (id) => {
 export const getDataByCategories = async (categories) => {
   console.error(categories);
   const db = await openDB();
-  const transaction = db.transaction([OBJECT_STORE_NAME], "readonly");
-  const objectStore = transaction.objectStore(OBJECT_STORE_NAME);
+  const transaction = db.transaction([BOOKMARK_OBJECT_STORE_NAME], "readonly");
+  const objectStore = transaction.objectStore(BOOKMARK_OBJECT_STORE_NAME);
 
   return new Promise((resolve, reject) => {
     const request = objectStore.getAll();

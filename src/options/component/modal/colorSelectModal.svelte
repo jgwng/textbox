@@ -3,7 +3,7 @@
     import { insertData, updateData, deleteData } from '../../js/database.js';
     import { createContextMenu, removeContextMenu, updateContextMenu } from '../../js/contextMenus.js';
     import { hideModal } from '../../../service/common.js';
-    import { CATEGORY_NAME, CATEGORY_COLOR, CATEGORY_SHORTCUT } from '../../js/constants.js';
+    import {CATEGORY_NAME, CATEGORY_COLOR, CATEGORY_SHORTCUT} from '../../../database/constants.js';
     import Switch from '../../../components/switch.svelte';
 
     export let originalCategory;
