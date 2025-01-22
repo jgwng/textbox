@@ -1,8 +1,8 @@
 <script>
     import { onMount } from 'svelte';
-    import {getAllCategoryData} from '../../../database/categoryDB.js';
-    import '../../../styles/bottomSheet.css';
-    import {hideBottomSheet} from '../../../service/common.js';
+    import {getAllCategoryData} from '../../database/categoryDB.js';
+    import '../../styles/bottomSheet.css';
+    import {hideBottomSheet} from '../../service/common.js';
 
     let categories = [];
     export let onFilterSelect;

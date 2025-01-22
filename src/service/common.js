@@ -1,6 +1,6 @@
 import { SvelteComponent } from 'svelte';
 
-import BasicBottomSheet from '../popup/component/bottomsheet/basicbottomsheet.svelte';
+import BasicBottomSheet from '../components/bottomsheet/basicBottomsheet.svelte';
 import ColorSelectModal from '../options/component/modal/colorSelectModal.svelte';
 let bottomSheetInstance = null;
 let modalInstance = null;

@@ -101,7 +101,6 @@
 	// }
 
 	function onClickItem(category) {
-		console.log(category);
 		showModal({
 			originalCategory: category,
 			categoryList: categoryList,

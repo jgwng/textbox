@@ -1,10 +1,12 @@
 <script>
-	import { getAllCategoryData } from '../database/categoryDB.js';
-	import { onMount } from 'svelte';
-	import { getAllData, deleteAllData, getDataByCategories } from '../database/bookmarkDB.js';
-	import { openBottomSheet } from '../service/common.js';
-    import DataCard from './component/card/datacard.svelte';
-	import CategorySelectSheet from './component/bottomsheet/categorySelectSheet.svelte';
+    import { onMount } from 'svelte';
+
+	import { getAllCategoryData } from './database/categoryDB.js';
+	import { getAllData, deleteAllData, getDataByCategories } from './database/bookmarkDB.js';
+	
+    import { openBottomSheet } from './service/common.js';
+	import BookmarkCard from './components/card/bookmarkCard.svelte';
+	import CategorySelectSheet from './components/bottomsheet/categorySelectSheet.svelte';
 
 	let categories;
 	let filterCategories = [];
@@ -15,7 +17,19 @@
 	let emptyMessage;
 	let headerButtons;
 
+    export let name;
+
 	onMount(async () => {
+        
+        if(name === "sidepanel"){
+            chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+                console.log("Message received in side panel:", message);
+                document.getElementById("output").innerText = message.content;
+                sendResponse({ status: "Message received in side panel!" });
+            });
+            document.getElementById("textBox").classList.remove("body");
+        }
+
 		resultList = document.getElementById("resultList");
 		emptyMessage = document.getElementById("emptyMessage");
 		headerButtons = document.getElementById("header-buttons");
@@ -127,35 +141,37 @@
 		height: 20px;
 	}
 
+    .body{
+        height: 600px;
+        width: 375px;
+    }
 </style>
-<body>
-	<div style="height: 600px; width: 375px;">
-		<div class="header" id="header">
-			<h1>텍스트 박스</h1>
-			<div id="header-buttons">
-				<button id="filterBtn" on:click={onTapFilterBtn}>
-					<img src="../assets/images/filter.svg" alt="filter" class="img">
-				</button>
-				<button id="deleteAllBtn" on:click={deleteAllDataFromList}>
-					<img src="../assets/images/trash.svg" alt="delete" class="img">
-				</button>
-			</div>
-		  </div>
-		  <ul id="resultList">
-			{#each entries as entry}
-				<DataCard 
-					id={entry.id}
-					entry={entry}
-					category={categories.find(category => `${category.categorySeq}`=== entry.category)}
-					onRefresh={onRefresh}
-				/>
-			{/each}
-		  </ul>
-		  <div class="empty-message" id="emptyMessage">
-			<p></p>
-		  </div>
-		  <div id="bottom-sheet"></div>
-		  <!-- Load script at the end of the body -->
-		  <script src="index.js" type="module"></script>
-	</div>
-</body>
+<div class="body" id="textBox">
+    <div class="header" id="header">
+        <h1>텍스트 박스</h1>
+        <div id="header-buttons">
+            <button id="filterBtn" on:click={onTapFilterBtn}>
+                <img src="../assets/images/filter.svg" alt="filter" class="img">
+            </button>
+            <button id="deleteAllBtn" on:click={deleteAllDataFromList}>
+                <img src="../assets/images/trash.svg" alt="delete" class="img">
+            </button>
+        </div>
+      </div>
+      <ul id="resultList">
+        {#each entries as entry}
+            <BookmarkCard 
+                id={entry.id}
+                entry={entry}
+                category={categories.find(category => `${category.categorySeq}`=== entry.category)}
+                onRefresh={onRefresh}
+            />
+        {/each}
+      </ul>
+      <div class="empty-message" id="emptyMessage">
+        <p></p>
+      </div>
+      <div id="bottom-sheet"></div>
+      <!-- Load script at the end of the body -->
+      <script src="index.js" type="module"></script>
+</div>

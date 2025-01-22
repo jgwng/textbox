@@ -1,8 +1,11 @@
 <script>
-    import {deleteData, updateData} from '../../../database/bookmarkDB.js';
-    import OptionSheet from '../bottomsheet/optionsheet.svelte';  
-    import {openBottomSheet,hideBottomSheet,getCSSVariableValue} from '../../../service/common.js';
+    import {deleteData, updateData} from '../../database/bookmarkDB.js';
+    import OptionSheet from '../bottomsheet/optionSheet.svelte';  
+    import {openBottomSheet,hideBottomSheet,getCSSVariableValue} from '../../service/common.js';
     import CategoryChangeSheet from '../bottomsheet/categoryChangeSheet.svelte';
+    
+    
+    export let isPanel = true;
     export let entry;
     export let category;
     export let onRefresh;
@@ -103,6 +106,10 @@
           }
       },"더보기");
     }
+    
+    function determineWidth() {
+        return isPanel ? '100%' : 'auto'; // Change 'auto' to a specific width if needed
+    }
 
   </script>
   
@@ -113,6 +120,7 @@
       box-shadow: var(--card-shadow);
       position: relative;
       font-family: 'GmarketSansMedium', sans-serif;
+      width: 100%;
     }
   
     .card-more {
@@ -192,7 +200,7 @@
   
   <div class="card-container"
     id="card-{entry.id}" 
-    style="background-color: var(--pastel-{category?.categoryColor ?? 'red'})">
+    style="background-color: var(--pastel-{category?.categoryColor ?? 'red'}); ">
     <button class="card-more" on:click={onTapMoreButton}>
       <img src="../../../assets/images/more.svg" alt="more" />
     </button>
