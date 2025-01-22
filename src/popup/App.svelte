@@ -1,7 +1,7 @@
 <script>
-	import { getAllCategoryData } from '../options/js/database.js';
+	import { getAllCategoryData } from '../database/categoryDB.js';
 	import { onMount } from 'svelte';
-	import { getAllData, deleteAllData, getDataByCategories } from '../background/database.js';
+	import { getAllData, deleteAllData, getDataByCategories } from '../database/bookmarkDB.js';
 	import { openBottomSheet } from '../service/common.js';
     import DataCard from './component/card/datacard.svelte';
 	import CategorySelectSheet from './component/bottomsheet/categorySelectSheet.svelte';

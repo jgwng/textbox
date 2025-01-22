@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte';
-    import {getAllCategoryData} from '../../../options/js/database.js';
+    import {getAllCategoryData} from '../../../database/categoryDB.js';
     import '../../../styles/bottomSheet.css';
     import {hideBottomSheet} from '../../../service/common.js';
 

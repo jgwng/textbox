@@ -22,18 +22,18 @@ const createConfig = (name, useSvelte = false, additionalPlugins = []) => {
     },
     plugins: [
       useSvelte &&
-        svelte({
-          compilerOptions: {
-            dev: !prod,
-          },
-          preprocess: sveltePreprocess(),
-        }),
+      svelte({
+        compilerOptions: {
+          dev: !prod,
+        },
+        preprocess: sveltePreprocess(),
+      }),
       css({ output: `${name}.css` }),
       useSvelte &&
-        htmlTemplate({
-          template: 'src/index.html',
-          target: `dist/${name}.html`,
-        }),
+      htmlTemplate({
+        template: 'src/index.html',
+        target: `dist/${name}.html`,
+      }),
 
       // https://github.com/rollup/plugins/tree/master/packages/commonjs
       resolve({
@@ -63,4 +63,5 @@ export default [
   createConfig('popup', true),
   createConfig('content-scripts', true),
   createConfig('background'),
+  createConfig('sidepanel', true),
 ];

@@ -1,10 +1,12 @@
-import { insertData } from './database.js';
-import { insertDefaultData, getMacroData } from '/options/js/database.js';
-import { DEFAULT_CATEGORY_DATA} from '../database/constants.js';
+import { insertData } from '../database/bookmarkDB.js';
+import { insertDefaultData, getMacroData } from '../database/categoryDB.js';
+import { DEFAULT_CATEGORY_DATA } from '../database/constants.js';
 // Listener for context menu clicks
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
-
-  if (info.menuItemId === "openOptions") {
+  if (info.menuItemId === "openSidePanel") {
+    chrome.sidePanel.open({ tabId: tab.id });
+  }
+  else if (info.menuItemId === "openOptions") {
     chrome.runtime.openOptionsPage();
   } else if (info.menuItemId !== "") {
     // Create the message object
@@ -36,7 +38,7 @@ function sendMessage(popupMessage) {
       chrome.scripting.executeScript(
         {
           target: { tabId: tabId },
-          files: ["content-scripts.js"], // Make sure "content.js" is the correct path
+          files: ["content-scripts.js"],
         },
         () => {
           if (chrome.runtime.lastError) {
@@ -168,6 +170,11 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: "openOptions",
     title: "설정 열기", // Context menu item title
+    contexts: ["all"], // Show this menu item everywhere
+  });
+  chrome.contextMenus.create({
+    id: "openSidePanel",
+    title: "사이드 판넬 열기", // Context menu item title
     contexts: ["all"], // Show this menu item everywhere
   });
 });

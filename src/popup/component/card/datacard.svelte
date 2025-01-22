@@ -1,5 +1,5 @@
 <script>
-    import {deleteData, updateData} from '../../../background/database.js';
+    import {deleteData, updateData} from '../../../database/bookmarkDB.js';
     import OptionSheet from '../bottomsheet/optionsheet.svelte';  
     import {openBottomSheet,hideBottomSheet,getCSSVariableValue} from '../../../service/common.js';
     import CategoryChangeSheet from '../bottomsheet/categoryChangeSheet.svelte';

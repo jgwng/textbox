@@ -13,6 +13,7 @@ let options = {
     popup: './popup/index.js',
     options: './options/index.js',
     background: './background/index.js',
+    sidepanel: './sidepanel/index.js',
     'content-scripts': './content-scripts/index.js',
   },
   output: {
@@ -72,6 +73,11 @@ let options = {
       template: './index.html',
       filename: 'popup.html',
       chunks: ['popup'],
+    }),
+    new HtmlWebpackPlugin({
+      template: './index.html',
+      filename: 'sidepanel.html',
+      chunks: ['sidepanel'],
     }),
     new HtmlWebpackPlugin({
       template: './index.html',

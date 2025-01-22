@@ -1,6 +1,6 @@
 <script>
     import { removeContextMenu } from '../../js/contextMenus.js';
-	import { deleteData } from '../../js/database.js';
+	import { deleteData } from '../../../database/categoryDB.js';
     
     export let category;
     export let onClickItem;

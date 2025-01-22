@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte';
-    import { insertData, updateData, deleteData } from '../../js/database.js';
+    import { insertData, updateData, deleteData } from '../../../database/categoryDB.js';
     import { createContextMenu, removeContextMenu, updateContextMenu } from '../../js/contextMenus.js';
     import { hideModal } from '../../../service/common.js';
     import {CATEGORY_NAME, CATEGORY_COLOR, CATEGORY_SHORTCUT} from '../../../database/constants.js';

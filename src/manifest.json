@@ -10,7 +10,7 @@
     "128": "./assets/icons/icon128.png"
   },
   "permissions": ["contextMenus", "scripting","activeTab",
-    "tabs",
+    "tabs","sidePanel",
     "commands"],
   "host_permissions": [
     "https://*/*",
@@ -19,6 +19,9 @@
   "options_ui": {
     "page": "options.html",
     "open_in_tab": true
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
   },
   "action": {
     "default_popup": "popup.html",

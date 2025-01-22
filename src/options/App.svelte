@@ -1,5 +1,5 @@
 <script>
-	import { insertData, updateData, deleteData, getAllCategoryData } from './js/database.js';
+	import { insertData, updateData, deleteData, getAllCategoryData } from '../database/categoryDB.js';
 	import { CATEGORY_NAME, CATEGORY_COLOR } from '../database/constants.js';
 	import { createContextMenu, removeContextMenu, removeAllContextMenu, updateContextMenu } from './js/contextMenus.js';
 	import { onMount } from 'svelte';
