@@ -1,41 +1,39 @@
-# Chrome Extension Svelte Boilerplate 
-![icon](https://github.com/micro-artwork/chrome-extension-svelte-boilerplate/blob/main/src/assets/icons/icon128.png?raw=true)
+# TextBox 
+![icon](https://github.com/jgwng/textbox/blob/main/src/assets/icons/icon128.png)
 
-This boilerplate is a bare minimum for developing chrome extensions with Svelte. And to build it, can choose Webpack 5 or Rollup bundler.
+이 프로젝트는 크롬 확장 프로그램 텍스트 박스 입니다.
+웹 서핑을 하던 도중 저장하고 싶은 문구들을 저장하고 찾아볼 수 있는 크롬 확장 프로그램 입니다.
 
-## Getting Started
-1. Clone or Download the repo
+## 크롬 익스텐션 사용해보기
+1. 저장소를 클론 또는 다운로드 받습니다.
 ```
-https://github.com/micro-artwork/chrome-extension-svelte-boilerplate.git
+https://github.com/jgwng/textbox.git
 ```
 
-2. Install NPM packages
-
-package.json file is for Webpack basically, If want to use Rollup bundler to build, replace package.rollup.json with package.json.
+2. NPM 패키지 설치
 ```
 npm install
 ```
 
-3. Excute NPM command for development
+3. 개발 모드로 실행 또는 설치
 ```
-npm start
+npm run start / npm run build
 ```
 
-4. Open and browse chrome extensions management
+4. 크롬 익스텐션 관리 페이지 열기
 ```
 chrome://extensions/
 ```
 
-5. Turn on developer mode and load the unpacked extension from dist folder
+5. 개발자 모드 켜기 및 패키지 로드
 ```
 ./dist
 ```
 
-6. Test
-
-![test](https://micro-artwork.github.io/images/etc/boilerplate.gif)
-
-
-## Note
-
-Content-scripts template base is Svelte. But if won't need to insert UI components, need not Svelte and can use Vanilla JS.
+## 주요 기능 
+- 선택한 텍스트 카테고리 별 저장
+- 저장된 텍스트들 카테고리별 보기
+- 저장된 텍스트 삭제
+- 저장한 텍스트의 링크 클릭 시 원문 페이지로 이동
+- 저장할 카테고리 이름 변경
+- 저장할 카테고리 삭제
