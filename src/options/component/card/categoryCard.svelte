@@ -4,7 +4,6 @@
     
     export let category;
     export let onClickItem;
-    export let changeDisplay;
     function handleKeydown(event) {
         if (event.key === 'Escape') {
         }
@@ -15,11 +14,6 @@
         deleteData(category.categorySeq);
         removeContextMenu(category.categorySeq);
         document.querySelector(`#color-card-${category.categorySeq}`).remove();
-        
-        const serviceContainer = document.getElementById("colorList");
-        if (serviceContainer.children.length === 0) {
-            changeDisplay(true);
-        }
     }
 </script>
 
