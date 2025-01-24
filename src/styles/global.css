@@ -170,7 +170,7 @@
     height: calc(var(--container_height) - var(--header_height));
     align-items: center;
     justify-content: center;
-    display: none;
+    display: flex;
   }
 
   .empty-message p {

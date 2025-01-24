@@ -1,6 +1,6 @@
 {
   "name": "텍스트박스",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "웹에서 발견한 중요한 문구를 간단히 저장하고 체계적으로 관리하세요.",
   "manifest_version": 3,
   "icons": {

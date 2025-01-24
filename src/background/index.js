@@ -17,6 +17,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       category: info.menuItemId.toString(),
       timestamp: new Date().toISOString(), // Add a timestamp
     };
+    
     // Save the message to IndexedDB
     saveData(message);
   }
@@ -26,6 +27,13 @@ const saveData = async (message) => {
   let popupMessage = "저장 성공";
   if (result === false) {
     popupMessage = "저장 실패";
+  }
+  if(result === true){
+    chrome.runtime.sendMessage(
+      message,(response) => {
+        console.log("Response from side panel:", response);
+      }
+    );
   }
   sendMessage(popupMessage);
 }

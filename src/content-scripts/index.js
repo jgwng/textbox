@@ -39,6 +39,8 @@ function showToast(message) {
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   console.log("Message received:", message);
   if (message.type === "create_popup") {
-    showToast(message.message); // Show toast if the message type is 'create_popup'
+    showToast(message.message);
+    sendResponse({status: "success", message: "Popup displayed"});
   }
+  return true;
 });

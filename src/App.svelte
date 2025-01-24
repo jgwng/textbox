@@ -13,31 +13,24 @@
 
 	let entries = [];
 
-	let resultList;
-	let emptyMessage;
-	let headerButtons;
-
     export let name;
 
 	onMount(async () => {
         
         if(name === "sidepanel"){
-            chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-                console.log("Message received in side panel:", message);
-                document.getElementById("output").innerText = message.content;
+            chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+				if(filterCategories.length === 0){
+					entries = await getAllData() ?? [];
+				}else{
+					entries = await getDataByCategories(filterCategories) ?? [];
+				}
                 sendResponse({ status: "Message received in side panel!" });
             });
-            document.getElementById("textBox").classList.remove("body");
         }
-
-		resultList = document.getElementById("resultList");
-		emptyMessage = document.getElementById("emptyMessage");
-		headerButtons = document.getElementById("header-buttons");
 
 		const data = await getAllData() ?? [];
 		categories = await getAllCategoryData();
 		entries = data;
-		checkEntries();
 	});
 
 	async function deleteAllDataFromList() {
@@ -60,30 +53,9 @@
 		}
 	}
 
-	function checkEntries() {
-		if(entries.length === 0) {
-			const message = filterCategories.length > 0 ? "선택하신 카테고리에 해당되는\n글이 없습니다" : "저장된 글이 없습니다";
-			showEmptyMessage(message);
-		} else {
-			updateDeleteAllBtnVisibility(true);
-		}
-	}
 
-	function showEmptyMessage(message) {
-		const messageElement = emptyMessage.querySelector("p");
-		messageElement.textContent = message;
-		
-		emptyMessage.style.display = "flex";
-		resultList.style.display = "none";
-	}
-
-	const updateDeleteAllBtnVisibility = (hasData) => {
-  		headerButtons.style.display = hasData ? "flex" : "none";
-	};
-
-	function onRefresh() {
-		updateDeleteAllBtnVisibility(false);
-		showEmptyMessage();
+	function onDelete(id) {
+		entries = entries.filter(item => item.id !== id);
 	}
 
 	function onTapFilterBtn() {
@@ -146,10 +118,11 @@
         width: 375px;
     }
 </style>
-<div class="body" id="textBox">
+<div class={name == 'sidepanel' ? '' : 'body'} id="textBox">
     <div class="header" id="header">
         <h1>텍스트 박스</h1>
-        <div id="header-buttons">
+        {#if entries.length  !== 0}
+		<div id="header-buttons">
             <button id="filterBtn" on:click={onTapFilterBtn}>
                 <img src="../assets/images/filter.svg" alt="filter" class="img">
             </button>
@@ -157,20 +130,24 @@
                 <img src="../assets/images/trash.svg" alt="delete" class="img">
             </button>
         </div>
+		{/if}
       </div>
-      <ul id="resultList">
-        {#each entries as entry}
-            <BookmarkCard 
-                id={entry.id}
-                entry={entry}
-                category={categories.find(category => `${category.categorySeq}`=== entry.category)}
-                onRefresh={onRefresh}
-            />
-        {/each}
-      </ul>
-      <div class="empty-message" id="emptyMessage">
-        <p></p>
-      </div>
+      {#if entries.length !== 0}
+		<ul id="resultList">
+			{#each entries as entry}
+				<BookmarkCard 
+					id={entry.id}
+					entry={entry}
+					category={categories.find(category => `${category.categorySeq}`=== entry.category)}
+					onDelete={onDelete}
+				/>
+			{/each}
+		</ul>
+	  {:else}
+		<div class="empty-message" id="emptyMessage">
+			<p>{filterCategories.length > 0 ? "선택하신 카테고리에 해당되는\n글이 없습니다" : "저장된 글이 없습니다"}</p>
+		</div>
+	  {/if}
       <div id="bottom-sheet"></div>
       <!-- Load script at the end of the body -->
       <script src="index.js" type="module"></script>

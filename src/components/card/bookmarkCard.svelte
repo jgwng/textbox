@@ -5,10 +5,9 @@
     import CategoryChangeSheet from '../bottomsheet/categoryChangeSheet.svelte';
     
     
-    export let isPanel = true;
     export let entry;
     export let category;
-    export let onRefresh;
+    export let onDelete;
 
     async function moveToLink(url, text) {
         const categoryColor = category?.categoryColor ?? 'red';
@@ -59,10 +58,7 @@
 
             setTimeout(() => {
               cardElement.remove();
-              const resultList = document.getElementById("resultList");
-              if (resultList.children.length === 0) {
-                  onRefresh();
-              }
+              onDelete(id);
             }, 300);
 
         } catch (error) {
@@ -106,11 +102,6 @@
           }
       },"더보기");
     }
-    
-    function determineWidth() {
-        return isPanel ? '100%' : 'auto'; // Change 'auto' to a specific width if needed
-    }
-
   </script>
   
   <style>
