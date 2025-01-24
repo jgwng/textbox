@@ -209,7 +209,21 @@
   .toast-popup.show {
     opacity: 1;
   }
-
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  
+  
   /* Status-specific styles */
   .toast-success {
     background-color: #4ade80;  /* Green background */

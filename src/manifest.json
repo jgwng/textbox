@@ -39,7 +39,8 @@
   "content_scripts": [
     {
       "matches": ["*://*/*"],
-      "js": ["content-scripts.js"]
+      "js": ["content-scripts.js"],
+      "css": ["content-scripts.css"]
     }
   ],
   "content_security_policy": {
@@ -47,7 +48,7 @@
   },
   "web_accessible_resources": [
     {
-      "resources": ["img/close.svg"],
+      "resources": ["img/close.svg","content-scripts.css"],
       "matches": ["<all_urls>"]
     }
   ],
