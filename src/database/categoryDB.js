@@ -15,20 +15,16 @@ export const openDB = async () => {
 
     request.onupgradeneeded = (event) => {
       const db = event.target.result;
-      // Check if the object store already exists
       if (!db.objectStoreNames.contains(CATEGORY_OBJECT_STORE_NAME)) {
         const objectStore = db.createObjectStore(CATEGORY_OBJECT_STORE_NAME, { keyPath: "categorySeq", autoIncrement: true });
         objectStore.createIndex(CATEGORY_NAME, CATEGORY_NAME, { unique: false });
         objectStore.createIndex(CATEGORY_COLOR, CATEGORY_COLOR, { unique: false });
       }
 
-      // Ensure that the transaction is properly referenced
       const transaction = event.target.transaction;
 
-      // Ensure objectStore is retrieved within the transaction scope
       const objectStore = transaction.objectStore(CATEGORY_OBJECT_STORE_NAME);
 
-      // Check if the index for "categoryMacroNo" already exists, and create it if not
       if (!objectStore.indexNames.contains(CATEGORY_SHORTCUT)) {
         objectStore.createIndex(CATEGORY_SHORTCUT, CATEGORY_SHORTCUT, { unique: false });
       }
@@ -48,19 +44,19 @@ export const insertData = async (data) => {
       const request = objectStore.add(data);
 
       request.onsuccess = (event) => {
-        const insertedId = event.target.result; // Get the generated key
-        resolve({ categorySeq: insertedId });  // Return the inserted data with its ID
+        const insertedId = event.target.result;
+        resolve({ categorySeq: insertedId }); 
       };
 
       request.onerror = (event) => {
         console.error("Error inserting data:", event.target.error);
-        reject(event.target.error); // Reject with the error
+        reject(event.target.error); 
       };
     });
 
   } catch (error) {
     console.error("Error in insertData:", error);
-    throw error; // Throw the error to handle it in the caller
+    throw error; 
   }
 };
 
@@ -86,7 +82,6 @@ export const updateData = async (id, updatedData) => {
   const objectStore = transaction.objectStore(CATEGORY_OBJECT_STORE_NAME);
 
   return new Promise((resolve, reject) => {
-    // Get the existing data for the provided id
     const getRequest = objectStore.get(id);
 
     getRequest.onsuccess = (event) => {
@@ -96,11 +91,8 @@ export const updateData = async (id, updatedData) => {
         reject(`No data found with id: ${id}`);
         return;
       }
-
-      // Merge the existing data with the updated data
       const mergedData = { ...existingData, ...updatedData };
 
-      // Put the merged data back into the object store
       const updateRequest = objectStore.put(mergedData);
 
       updateRequest.onsuccess = () => {
@@ -217,7 +209,6 @@ export const deleteCategoryShortcutByMacroNo = async (macroNo) => {
     request.onsuccess = (event) => {
       const allData = event.target.result;
 
-      // Filter records that match the provided macroNo
       const filteredData = allData.filter(item => item.categoryShortcut === macroNo);
 
       if (filteredData.length === 0) {
@@ -226,19 +217,19 @@ export const deleteCategoryShortcutByMacroNo = async (macroNo) => {
       }
 
       const updatePromises = filteredData.map((item) => {
-        delete item.categoryShortcut; // Remove the shortcut property
+        delete item.categoryShortcut; 
 
         return new Promise((resolve, reject) => {
           const updateRequest = objectStore.put(item);
 
           updateRequest.onsuccess = () => {
-            console.log(`Removed CATEGORY_SHORTCUT from entry with id: ${item.categorySeq}`);
+            console.log(`카테고리 숏컷 삭제 : ${item.categorySeq}`);
             resolve(true);
           };
 
           updateRequest.onerror = (event) => {
-            console.error(`Error updating entry: ${event.target.error}`);
-            reject(`Error updating entry: ${event.target.error}`);
+            console.error(`업데이트중 오류: ${event.target.error}`);
+            reject(`업데이트중 오류: ${event.target.error}`);
           };
         });
       });
@@ -249,7 +240,7 @@ export const deleteCategoryShortcutByMacroNo = async (macroNo) => {
     };
 
     request.onerror = (event) => {
-      reject(`Error retrieving data: ${event.target.error}`);
+      reject(`업데이트중 오류 : ${event.target.error}`);
     };
   });
 };

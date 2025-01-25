@@ -1,7 +1,7 @@
 import { insertData } from '../database/bookmarkDB.js';
 import { insertDefaultData, getMacroData } from '../database/categoryDB.js';
 import { DEFAULT_CATEGORY_DATA } from '../database/constants.js';
-// Listener for context menu clicks
+
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   if (info.menuItemId === "openSidePanel") {
     chrome.sidePanel.open({ tabId: tab.id });
@@ -9,19 +9,17 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   else if (info.menuItemId === "openOptions") {
     chrome.runtime.openOptionsPage();
   } else if (info.menuItemId !== "") {
-    // Create the message object
     console.log("info.menuItemId", info.menuItemId);
     const message = {
       selectionText: info.selectionText || "No text selected",
       pageUrl: info.pageUrl || "Unknown page",
       category: info.menuItemId.toString(),
-      timestamp: new Date().toISOString(), // Add a timestamp
+      timestamp: new Date().toISOString(),
     };
-    
-    // Save the message to IndexedDB
     saveData(message);
   }
 });
+
 const saveData = async (message) => {
   var result = await insertData(message);
   let popupMessage = "저장 성공";
@@ -42,7 +40,6 @@ function sendMessage(popupMessage) {
     if (tabs.length > 0) {
       const tabId = tabs[0].id;
 
-      // Inject the content script before sending the message
       chrome.scripting.executeScript(
         {
           target: { tabId: tabId },
@@ -52,7 +49,6 @@ function sendMessage(popupMessage) {
           if (chrome.runtime.lastError) {
             console.error("Error injecting content script:", chrome.runtime.lastError.message);
           } else {
-            // Send the message after the content script is injected
             chrome.tabs.sendMessage(tabId, { type: "create_popup", message: popupMessage }, (response) => {
               if (chrome.runtime.lastError) {
                 console.error("Error sending message to content script:", chrome.runtime.lastError.message);
@@ -112,21 +108,15 @@ async function scrollTarget(target, pageUrl, color) {
     if (tabs[0]) {
       const tabId = tabs[0].id;
 
-      // Update the tab URL
       chrome.tabs.update(tabId, { url: pageUrl }, function () {
-        // Listen for the tab's status to change to "complete"
         chrome.tabs.onUpdated.addListener(function listener(updatedTabId, changeInfo) {
           if (updatedTabId === tabId && changeInfo.status === "complete") {
-            // Tab has finished loading the new URL
-
-            // Remove the listener to avoid unnecessary calls
             chrome.tabs.onUpdated.removeListener(listener);
 
-            // Execute the script
             chrome.scripting.executeScript({
               target: { tabId: tabId },
               func: scrollToSpecificText,
-              args: [target, color], // Pass the target text as an argument
+              args: [target, color], 
             });
           }
         });
@@ -172,18 +162,18 @@ chrome.runtime.onInstalled.addListener(() => {
   });
   chrome.contextMenus.create({
     id: "separator",
-    type: "separator", // Specifies that this item is a separator
-    contexts: ["all"], // Apply the separator in all contexts
+    type: "separator", 
+    contexts: ["all"],
   });
   chrome.contextMenus.create({
     id: "openOptions",
-    title: "설정 열기", // Context menu item title
-    contexts: ["all"], // Show this menu item everywhere
+    title: "설정 열기",
+    contexts: ["all"],
   });
   chrome.contextMenus.create({
     id: "openSidePanel",
-    title: "측면 판넬 열기", // Context menu item title
-    contexts: ["all"], // Show this menu item everywhere
+    title: "측면 판넬 열기",
+    contexts: ["all"],
   });
 });
 
@@ -223,7 +213,7 @@ chrome.commands.onCommand.addListener((command) => {
     const selectedText = selection[0].result;
     if (!selectedText.trim()) {
       console.log("No text selected, skipping command execution.");
-      return; // Exit if no text is selected
+      return;
     }
     const url = tabs[0].url;
     switch (command) {
@@ -252,6 +242,4 @@ async function saveDataMacroNo(macroNo, selectionText, pageUrl) {
     timestamp: new Date().toISOString(), // Add a timestamp
   };
   saveData(message);
-  console.log(message); // Log or save the message as needed
-  // Implement the actual save logic here
 }
