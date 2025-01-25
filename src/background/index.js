@@ -182,7 +182,7 @@ chrome.runtime.onInstalled.addListener(() => {
   });
   chrome.contextMenus.create({
     id: "openSidePanel",
-    title: "사이드 판넬 열기", // Context menu item title
+    title: "측면 판넬 열기", // Context menu item title
     contexts: ["all"], // Show this menu item everywhere
   });
 });

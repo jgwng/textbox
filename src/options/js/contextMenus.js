@@ -35,7 +35,7 @@ export const createContextMenu = (categorySeq,title) => {
 }
 
 export const removeContextMenu = (categorySeq) => {
-    chrome.contextMenus.remove(categorySeq.toString());
+    chrome.contextMenus.remove(`${categorySeq}`);
 }
 
 export const removeAllContextMenu = () => {
@@ -43,8 +43,11 @@ export const removeAllContextMenu = () => {
 }   
 
 export const updateContextMenu = (categorySeq, title, color) => {
-    chrome.contextMenus.update(categorySeq.toString(), {
+    console.log('title : ', title);
+    console.log('color : ', color);
+    console.log('categorySeq : ', categorySeq);
+
+    chrome.contextMenus.update(`${categorySeq}`, {
         title: title,
-        color: color
     });
 }   

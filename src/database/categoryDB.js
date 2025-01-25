@@ -205,3 +205,51 @@ export const getMacroData = async (macroNo) => {
     };
   });
 };
+
+export const deleteCategoryShortcutByMacroNo = async (macroNo) => {
+  const db = await openDB();
+  const transaction = db.transaction([CATEGORY_OBJECT_STORE_NAME], "readwrite");
+  const objectStore = transaction.objectStore(CATEGORY_OBJECT_STORE_NAME);
+
+  return new Promise((resolve, reject) => {
+    const request = objectStore.getAll();
+
+    request.onsuccess = (event) => {
+      const allData = event.target.result;
+
+      // Filter records that match the provided macroNo
+      const filteredData = allData.filter(item => item.categoryShortcut === macroNo);
+
+      if (filteredData.length === 0) {
+        reject(`No records found with macroNo: ${macroNo}`);
+        return;
+      }
+
+      const updatePromises = filteredData.map((item) => {
+        delete item.categoryShortcut; // Remove the shortcut property
+
+        return new Promise((resolve, reject) => {
+          const updateRequest = objectStore.put(item);
+
+          updateRequest.onsuccess = () => {
+            console.log(`Removed CATEGORY_SHORTCUT from entry with id: ${item.categorySeq}`);
+            resolve(true);
+          };
+
+          updateRequest.onerror = (event) => {
+            console.error(`Error updating entry: ${event.target.error}`);
+            reject(`Error updating entry: ${event.target.error}`);
+          };
+        });
+      });
+
+      Promise.all(updatePromises)
+        .then(() => resolve(true))
+        .catch((error) => reject(error));
+    };
+
+    request.onerror = (event) => {
+      reject(`Error retrieving data: ${event.target.error}`);
+    };
+  });
+};

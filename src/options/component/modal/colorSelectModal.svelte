@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte';
-    import { insertData, updateData, deleteData } from '../../../database/categoryDB.js';
+    import { insertData, updateData, deleteData ,deleteCategoryShortcutByMacroNo} from '../../../database/categoryDB.js';
     import { createContextMenu, removeContextMenu, updateContextMenu } from '../../js/contextMenus.js';
     import { hideModal } from '../../../service/common.js';
     import {CATEGORY_NAME, CATEGORY_COLOR, CATEGORY_SHORTCUT} from '../../../database/constants.js';
@@ -45,7 +45,7 @@
             hideModal();
         }
     }
-    function onTapConfirm(){
+    async function onTapConfirm(){
         const newTitle = document.querySelector('input').value;
         if (!newTitle || !selectedColor) {
             alert('Please enter both title and select a color');
@@ -58,6 +58,7 @@
         if(switchValue){
             updateCategoryShortcut();
             categoryData[CATEGORY_SHORTCUT] = selectedShortcut;
+            await deleteCategoryShortcutByMacroNo(selectedShortcut);
         }
 
         if(isEdit === true){
@@ -69,8 +70,9 @@
                 let oldCategory = categoryList.find(item => item.categorySeq === originalCategory.categorySeq);
                 oldCategory.categoryName = newTitle;
                 oldCategory.categoryColor = selectedColor;
-
-                updateContextMenu(result.categorySeq, newTitle, selectedColor);
+                console.log(oldCategory);
+                updateContextMenu(oldCategory.categorySeq, newTitle, selectedColor);
+                hideModal();
             })
             .catch((error) => {
                 console.error("Update failed:", error);
@@ -85,6 +87,7 @@
                         categoryColor: selectedColor,
                         categoryShortcut: selectedShortcut
                     });
+                    hideModal();
 				})
         }
 
@@ -188,7 +191,7 @@
                                 name="options" 
                                 value={shortcut}
                                 checked={selectedShortcut === shortcut}
-                                on:click|preventDefault={() => handleShortcutSelect(shortcut)}
+                                on:change={() => handleShortcutSelect(shortcut)}
                             >
                             <span>#{shortcut}</span>
                         </label>
